@@ -8,7 +8,7 @@ interface IStudentAttendanceContext {
     studentsList: Person[],
     changeStudentList: (list: Person[]) => void,
     setFilter: (value: string) => void,
-    handleAttandanceStatusChange: (id: number, status: RolllStateType) => void
+    handleAttendanceStatusChange: (id: number, status: RolllStateType) => void
     statusTypeCounter: any
     setAttendanceType: (type: ItemType) => void
     saveStudentsAttendance: () => RollInput
@@ -47,7 +47,7 @@ export default function StudentAttendanceContextProvider(props: IStudentAttendan
 
     const filterListType = useCallback((list: Person[]) => {
         const listType = list.filter((student) => {
-            return student.attandance_status === attendanceType
+            return student.attendance_status === attendanceType
         });
         return listType
     }, [attendanceType])
@@ -71,7 +71,7 @@ export default function StudentAttendanceContextProvider(props: IStudentAttendan
     useEffect(() => {
         const counter = { ...initialCounter };
         studentsList.forEach((student: Person) => {
-            switch (student.attandance_status) {
+            switch (student.attendance_status) {
                 case 'present':
                     counter.present += 1;
                     break;
@@ -87,11 +87,11 @@ export default function StudentAttendanceContextProvider(props: IStudentAttendan
         });
     }, [studentsList])
 
-    const handleAttandanceStatusChange = (id: number, status: RolllStateType) => {
+    const handleAttendanceStatusChange = (id: number, status: RolllStateType) => {
         setStudentsList((prevState: any) => {
             return prevState.map((student: Person) => {
                 if (student.id === id) {
-                    student.attandance_status = status
+                    student.attendance_status = status
                 }
                 return student;
             });
@@ -100,7 +100,7 @@ export default function StudentAttendanceContextProvider(props: IStudentAttendan
 
     const saveStudentsAttendance = (): RollInput => {
         const req = studentsList.filter((student) => {
-            return !!student.attandance_status
+            return student.attendance_status !== 'unmark'
         });
         return { student_roll_states: req }
     }
@@ -111,13 +111,13 @@ export default function StudentAttendanceContextProvider(props: IStudentAttendan
 
     const resetStudentList = () => {
         const resetList = studentsList.map((student)=>{
-            student.attandance_status = 'unmark'
+            student.attendance_status = 'unmark'
             return student
         })
         changeStudentList(resetList)
     }
 
-    const value = { handleAttandanceStatusChange, changeStudentList, setFilter,
+    const value = { handleAttendanceStatusChange, changeStudentList, setFilter,
          renderStudentList, studentsList, statusTypeCounter, setAttendanceType,
          saveStudentsAttendance, setSortingOrder, setSortBy, sortBy, sortingOrder, 
          resetStudentList }

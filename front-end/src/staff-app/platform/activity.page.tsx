@@ -15,14 +15,14 @@ export const ActivityPage: React.FC = () => {
   return <S.Container>
     <S.ToolbarContainer>Activity Page</S.ToolbarContainer>
     {
-      data?.activity.map((attandance) => {
-        return <div key={attandance.date.toString()}>
+      data?.activity.map((attendance) => {
+        return <div key={attendance.date.toString()}>
           <S.AttendanceDateContainer>
-            {attandance.date}
+            {attendance.date}
           </S.AttendanceDateContainer>
           <StudentsList
             loadState={loadState}
-            renderStudentList={attandance.entity.student_roll_states}
+            renderStudentList={attendance.entity.student_roll_states}
             activityView={true}
           />
         </div>

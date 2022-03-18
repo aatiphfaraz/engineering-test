@@ -5,7 +5,7 @@ export interface Person {
   first_name: string
   last_name: string
   photo_url?: string
-  attandance_status?: RolllStateType
+  attendance_status?: RolllStateType
 }
 
 export const PersonHelper = {

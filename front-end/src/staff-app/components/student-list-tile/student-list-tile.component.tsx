@@ -14,9 +14,9 @@ interface Props {
   activityView: boolean
 }
 export const StudentListTile: React.FC<Props> = ({ isRollMode, student, activityView}) => {
-  const { handleAttandanceStatusChange } = useStudentsAttendanceContext();
+  const { handleAttendanceStatusChange } = useStudentsAttendanceContext();
   const updateAttendance = (status: RolllStateType) =>{
-      handleAttandanceStatusChange(student.id, status)
+      handleAttendanceStatusChange(student.id, status)
   };
   return (
     <S.Container>
@@ -26,7 +26,7 @@ export const StudentListTile: React.FC<Props> = ({ isRollMode, student, activity
       </S.Content>
       {isRollMode && (
         <S.Roll>
-          <RollStateSwitcher viewMode={activityView} initialState={student.attandance_status} onStateChange={updateAttendance}/>
+          <RollStateSwitcher viewMode={activityView} initialState={student.attendance_status} onStateChange={updateAttendance}/>
         </S.Roll>
       )}
     </S.Container>
