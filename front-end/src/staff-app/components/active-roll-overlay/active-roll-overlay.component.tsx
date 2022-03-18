@@ -2,7 +2,8 @@ import React from "react"
 import styled from "styled-components"
 import Button from "@material-ui/core/Button"
 import { BorderRadius, Spacing } from "shared/styles/styles"
-import { RollStateList } from "staff-app/components/roll-state/roll-state-list.component"
+import { ItemType, RollStateList } from "staff-app/components/roll-state/roll-state-list.component"
+import {useStudentsAttendanceContext} from "shared/context/useStudentsAttendanceContext"
 
 export type ActiveRollAction = "filter" | "exit"
 interface Props {
@@ -12,6 +13,12 @@ interface Props {
 
 export const ActiveRollOverlay: React.FC<Props> = (props) => {
   const { isActive, onItemClick } = props
+  const { statusTypeCounter, setAttendanceType } = useStudentsAttendanceContext();
+
+  const handleOnExit = (action: ActiveRollAction) => {
+    onItemClick(action)
+    setAttendanceType('all')
+  }
 
   return (
     <S.Overlay isActive={isActive}>
@@ -20,17 +27,18 @@ export const ActiveRollOverlay: React.FC<Props> = (props) => {
         <div>
           <RollStateList
             stateList={[
-              { type: "all", count: 0 },
-              { type: "present", count: 0 },
-              { type: "late", count: 0 },
-              { type: "absent", count: 0 },
+              { type: "all", count: statusTypeCounter.all },
+              { type: "present", count: statusTypeCounter.present },
+              { type: "late", count: statusTypeCounter.late },
+              { type: "absent", count: statusTypeCounter.absent },
             ]}
+            onItemClick={(type: ItemType)=>setAttendanceType(type)}
           />
           <div style={{ marginTop: Spacing.u6 }}>
-            <Button color="inherit" onClick={() => onItemClick("exit")}>
+            <Button color="inherit" onClick={() => handleOnExit('exit')}>
               Exit
             </Button>
-            <Button color="inherit" style={{ marginLeft: Spacing.u2 }} onClick={() => onItemClick("exit")}>
+            <Button color="inherit" style={{ marginLeft: Spacing.u2 }} onClick={() => handleOnExit('filter')}>
               Complete
             </Button>
           </div>
